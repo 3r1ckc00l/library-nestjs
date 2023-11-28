@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Get, HttpStatus, Param, Post, Put, Req, Res, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { get } from 'http';
 
@@ -29,5 +29,17 @@ export class AppController {
   @Put('/user/:name')
   updateUser(@Param('name') personName: string): string {
     return 'User name ${personName} was updated.';
+  }
+
+  @Get('/users')
+  getUsers(
+    @Req() req: Request, 
+    @Res() res: Response,
+    @Body() data: Object,
+  ): Response<any> {
+    return res.status(HttpStatus.OK).send({
+      users: ['Antonio', 'Ricard'],
+      Request: req.url,
+    })
   }
 }
